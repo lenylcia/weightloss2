@@ -1,0 +1,61 @@
+public class RunApplication {
+    public static void main(String[] args) {
+        WeightLossModel model = new WeightLossModel();
+        model.CustomerName = "JOE BLOGGS";
+        model.WeightLoss = 10.0;
+
+        PrintWeightLoss printWeightLoss = new PrintWeightLoss(model);
+        printWeightLoss.Print();
+    }
+}
+
+class WeightLossModel {
+    public String CustomerName;
+    public double WeightLoss;
+}
+
+interface IWeightLoss {
+    String GetCustomerName();
+    double GetWeightLoss();
+}
+
+abstract class WeightLoss implements IWeightLoss {
+
+    private String customerName;
+    private double weightLoss;
+
+    // Constructor takes a WeightLossModel and pulls the values out of it
+    public WeightLoss(WeightLossModel model) {
+        this.customerName = model.CustomerName;
+        this.weightLoss = model.WeightLoss;
+    }
+
+    @Override
+    public String GetCustomerName() {
+        return customerName;
+    }
+
+    @Override
+    public double GetWeightLoss() {
+        return weightLoss;
+    }
+}
+
+class PrintWeightLoss extends WeightLoss {
+
+    // Constructor accepts the WeightLossModel and passes it up to WeightLoss
+    public PrintWeightLoss(WeightLossModel model) {
+        super(model);
+    }
+
+    // Displays the customer's name along with the weight loss amount
+    public void Print() {
+        String divider = "*".repeat(20);
+        System.out.println(divider);
+        System.out.println("CUSTOMER WEIGHTLOSS PRINTOUT");
+        System.out.println(divider);
+        System.out.println("CUSTOMER NAME: " + GetCustomerName());
+        System.out.println("WEIGHT LOSS: " + GetWeightLoss() + "kg");
+        System.out.println(divider);
+    }
+}
